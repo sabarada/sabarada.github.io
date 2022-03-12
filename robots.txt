@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://sabarada.github.io/sitemap/sitemap-index.xml
+Host: https://sabarada.github.io
