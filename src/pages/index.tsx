@@ -1,3 +1,5 @@
+import styled from '@emotion/styled'
+import Footer from 'components/Common/Footer'
 import Template from 'components/Common/Template'
 import CategoryList, { CategoryListProps } from 'components/Main/CategoryList'
 import Introduction from 'components/Main/Introduction'
