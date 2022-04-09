@@ -1,8 +1,6 @@
 import { MutableRefObject, useState, useEffect, useRef, useMemo } from 'react'
 import { PostListItemType } from 'types/PostItem.types'
 
-// 이거 하나하나 뜯어봐야한다... 잘 모르겠어 ㅠㅠ
-
 export type useInfiniteScrollType = {
   containerRef: MutableRefObject<HTMLDivElement | null>
   postList: PostListItemType[]

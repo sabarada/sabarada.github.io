@@ -3,7 +3,7 @@ module.exports = {
     title: `Sabarada Blog`,
     description: `Sabarda Blog.`,
     author: `Karol`,
-    siteUrl: 'https://sabarada.github.io/', // 배포 후 변경 예정
+    siteUrl: 'https://sabarada.github.io/',
   },
   plugins: [
     {
