@@ -1,5 +1,3 @@
-import styled from '@emotion/styled'
-import Footer from 'components/Common/Footer'
 import Template from 'components/Common/Template'
 import CategoryList, { CategoryListProps } from 'components/Main/CategoryList'
 import Introduction from 'components/Main/Introduction'
@@ -9,12 +7,6 @@ import { IGatsbyImageData } from 'gatsby-plugin-image'
 import queryString, { ParsedQuery } from 'query-string'
 import React, { FunctionComponent, useMemo } from 'react'
 import { PostListItemType } from 'types/PostItem.types'
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`
 
 type IndexPageProps = {
   location: {

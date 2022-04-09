@@ -36,7 +36,7 @@ type InfoPageProps = {
   }
 }
 
-const InfoPage: FunctionComponent<InfoPageProps> = function ({
+const InfoPage: React.FC<InfoPageProps> = function ({
   data: {
     site: {
       siteMetadata: { title, description, author },
