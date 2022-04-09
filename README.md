@@ -8,9 +8,15 @@
 
 ## 환경
 
-- react
-- gatsby
-- type script
+- React
+- Gatsby
+- TypeScript
+
+## 배포 명령어
+
+```bash
+
+```
 
 ## 참조
 
