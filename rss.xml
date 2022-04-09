@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Your Site's RSS Feed]]></title><description><![CDATA[Sabarda Blog.]]></description><link>https://sabarada.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 09 Apr 2022 12:50:09 GMT</lastBuildDate><author><![CDATA[Karol]]></author><item><title><![CDATA[Test]]></title><description><![CDATA[1. Help Google Bot to Find My Contents 구글에 SiteMap을 제출하여 사이트에 있는 파일로서 새 페이지나 변경된 페이지가 있을 때 이를 검색 엔진에 알려주도록 할 수 있다. SiteMap…]]></description><link>https://sabarada.github.io/sample/</link><guid isPermaLink="false">https://sabarada.github.io/sample/</guid><dc:creator><![CDATA[Karol]]></dc:creator><pubDate>Wed, 29 Jul 2020 00:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;1. Help Google Bot to Find My Contents&lt;/h3&gt;
+&lt;p&gt;구글에 SiteMap을 제출하여 사이트에 있는 파일로서 새 페이지나 변경된 페이지가 있을 때 이를 검색 엔진에 알려주도록 할 수 있다.&lt;/p&gt;
+&lt;p&gt;SiteMap은 사이트에 있는 페이지, 동영상 및 기타 파일과 각 관계에 관한 정보를 제공하는 파일로, 검색 엔진은 이를 읽고 사이트를 더 지능적으로 크롤링 할 수 있게 된다.&lt;/p&gt;
+&lt;h3&gt;2. Use ‘Robots.txt’ File&lt;/h3&gt;
+&lt;p&gt;Robots.txt 파일은 검색 엔진에 어떤 페이지를 크롤링해도 되는지 알리는 파일로, 서버의 루트 디렉토리에 있어야 한다.&lt;/p&gt;
+&lt;p&gt;과도한 Robots.txt 파일은 더 많은 방문자를 유도할 수 있는 정상적인 검색 엔진 크롤러의 접근을 막을 가능성이 있기 때문에 적절하게 설정해야 한다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Source&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;SEO 기본 가이드&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://support.google.com/webmasters/answer/7451184?hl=ko&amp;#x26;ref_topic=9460495&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;&lt;a href=&quot;https://support.google.com/webmasters/answer/7451184?hl=ko&amp;#x26;ref_topic=9460495&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://support.google.com/webmasters/answer/7451184?hl=ko&amp;#x26;ref_topic=9460495&lt;/a&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item></channel></rss>
