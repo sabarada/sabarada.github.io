@@ -3,7 +3,7 @@ date: '2021-05-15'
 title: '[java] ThreadLocal에 관하여'
 categories: ['java', 'korean']
 summary: 'Java의 ThreadLocal에 대해서 알아보도록 합시다.'
-thumbnail: './icons/java_icon.png'
+thumbnail: './images/java_icon.png'
 ---
 
 안녕하세요. 오늘은 ThreadLocal에 대해서 알아보도록 하겠습니다.
