@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="ko"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta data-react-helmet="true" name="google-site-verification" content="6gFt6zkHaWivu32B9xM50mZncgZsZxDx9QO_F3Ynq6U"/><meta data-react-helmet="true" name="twitter:creator" content="@karol"/><meta data-react-helmet="true" name="twitter:site" content="@karol"/><meta data-react-helmet="true" name="twitter:image"/><meta data-react-helmet="true" name="twitter:description" content="라인커버리지 100% 달성하기"/><meta data-react-helmet="true" name="twitter:title" content="[kotlin] 레거시(legacy) 코드에 테스트 작성하기 2편"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" property="og:site_name" content="[kotlin] 레거시(legacy) 코드에 테스트 작성하기 2편"/><meta data-react-helmet="true" property="og:url"/><meta data-react-helmet="true" property="og:image"/><meta data-react-helmet="true" property="og:description" content="라인커버리지 100% 달성하기"/><meta data-react-helmet="true" property="og:title" content="[kotlin] 레거시(legacy) 코드에 테스트 작성하기 2편"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" http-equiv="Content-Type" content="text/html;charset=UTF-8"/><meta data-react-helmet="true" name="viewport" content="width=device-width, initial-scale=1.0"/><meta data-react-helmet="true" name="description" content="라인커버리지 100% 달성하기"/><meta name="generator" content="Gatsby 4.9.0"/><style data-href="/styles.0109ae7f897db2fecdd6.css" data-identity="gatsby-global-css">code[class*=language-],pre[class*=language-]{word-wrap:normal;background:none;color:#ccc;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-size:1em;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none;line-height:1.5;-o-tab-size:4;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}</style><link rel="canonical" href="https://sabarada.github.io/kotlin_legacy_code_refactoring_using_testcode_2/" data-baseprotocol="https:" data-basehost="sabarada.github.io"/><link rel="sitemap" type="application/xml" href="/sitemap/sitemap-index.xml"/><link rel="alternate" type="application/rss+xml" title="Your Site&#x27;s RSS Feed" href="/rss.xml"/><title data-react-helmet="true">[kotlin] 레거시(legacy) 코드에 테스트 작성하기 2편</title><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){if(void 0===e.target.dataset.mainImage)return;if(void 0===e.target.dataset.gatsbyImageSsr)return;const t=e.target;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><link as="script" rel="preload" href="/webpack-runtime-11e1639cca6193f451b2.js"/><link as="script" rel="preload" href="/framework-6bdc9aaa9caa3de6408b.js"/><link as="script" rel="preload" href="/app-df24b4ed16db526209b6.js"/><link as="script" rel="preload" href="/cb1608f2-d860e9dbef9a05cd5b64.js"/><link as="script" rel="preload" href="/d0dcf9c1039535d44ee74defc829dfbf62dac3c5-0063e160d75349c4f13b.js"/><link as="script" rel="preload" href="/component---src-templates-post-template-tsx-6ca5a3f6285697798720.js"/><link as="fetch" rel="preload" href="/page-data/kotlin_legacy_code_refactoring_using_testcode_2/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><style data-emotion="css 13ku56z">.css-13ku56z{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;height:100%;}</style><div class="css-13ku56z e1strnqo0"><style data-emotion="css-global 1fjbsoa">@import url('<https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap>');*{padding:0;margin:0;box-sizing:border-box;font-family:'Nanum Myeongjo',serif;}html,body,#___gatsby{height:100%;}a,a:hover{color:inherit;-webkit-text-decoration:none;text-decoration:none;cursor:pointer;}</style><style data-emotion="css 1dsc7xc">.css-1dsc7xc{position:relative;width:100%;height:300px;}@media (max-width: 768px){.css-1dsc7xc{height:200px;}}</style><div class="css-1dsc7xc e1opi4mu1"><style data-emotion="css 1gip9b8">.css-1gip9b8{z-index:-1;width:100%;height:300px;object-fit:cover;-webkit-filter:brightness(0.25);filter:brightness(0.25);}@media (max-width: 768px){.css-1gip9b8{height:250px;}}</style><div data-gatsby-image-wrapper="" style="position:absolute" class="gatsby-image-wrapper gatsby-image-wrapper-constrained css-1gip9b8 e1opi4mu0"><div style="max-width:256px;display:block"><img alt="" role="presentation" aria-hidden="true" src="data:image/svg+xml;charset=utf-8,%3Csvg height=&#x27;256&#x27; width=&#x27;256&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27; version=&#x27;1.1&#x27;%3E%3C/svg%3E" style="max-width:100%;display:block;position:static"/></div><img aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear" decoding="async" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAESUlEQVQ4y21Va0yTVxgu4qbGv1v2y8HGhtPM7IdmS7YfssSNlotTk065tPRGWzMKdJSBF0qBEeRSUJA6wALScGkZFItkAUTEbMAWQTaHixihpRXY3BaTyaBQ+izvoa1A9uPp+/ac533O855z8h0OgCCLxRJ8TKQM5SYq4rgCZaRKpdpBYzqdbjuB8o0AsI04xI1MkMcfE6WH+saDODqdbhsvUX66LCXNPXI+Cze+0kAsUY4fjZO9JhKJdvL5/JcJJBAREbGdxnh88auH09PHDnRVY/8tI95rr5w7+G3VO7Q4h9TLVGnuiZxsPC3MwUB2Jpz55xCTkGyUy+UvkRCBcj6fv4vP5wcfEcmNYb9aEOK04fX5HuwbuIoP9Hl3ySWHmyiLGzmXxcTkEiUa1WosFWmRkfzFw40OfXmwQCDY/ZH2zMOQ2es4VF2I8NEmvK/Pw95Rk5crUERxogXKyJ6sTOaMxPJOp8BTnAuJWDFMrkiIQDmJ0RYdTk8f3rPQg/19tfhQm43Qx1YcsF4G7SmHVheLlWOugvP4t0iLteJc1KvV6B36YarB3PlHicHoJRQbrnpLr9R7ja0dT2nuoLEEe+Z7QE7D7psRkaYeF+l0OznUd0Sc/JWC8iqn9kwe1DkXUN47hr4ny7i54EH/3AoD5TQ28LsXfa4l6HvH8HlxBWL1Zci5WO2iQ6TTJ4fBUfHSkO7+24tdjmW0za6hZdoXZ1bQ6lhlaJlxo23WE5hr9kWqsfXdWvzslHgPO2VyyDspD2swd8L2xPOicMaNVocHrfYVhsbfnqFp6h+0OXwcX6SaBksnIhOlb7FTpp+ok8nhDRYrrjt9juwrqB6ZRln/z2i1rzJkfGNB3cQC9Dd/weWR6YB7qqHamHjF2wGH9CcgaF9Fad8ElCU1aJp6zsRb7CuQFxlYbpp6zuaIQ1wmaO5ETLzohSAvydeyy4NC2zBSK01sj/xuq75/hLNNNwKuaC61solxba7VzS3TveImSvY2WqzomnXD8KMd0oJLaJj8e12A2q1pR929+cC+0X7Kvq5iXKqh7qKEyeEBh58KZG+Qw+45L1vdeP9PSPMvoWZ8jgmwdkls2o3aewuQFVQyDnG759ZAZuhgAw6jBbJ919q7YLUvwez0ovnxEts/cmD4yYGzph7f6a+henQGpkeLjENcq2OZOaQuAw65p5Sh9W0d6J4HI7Y5vey+MVe+a+N36F/Q7FrnUlfkMDpe8ub6xVard0ULpO/q6xqFFzoGFcXf3U0qaB9UFNpGRIUdd2TXHjw7QjA9+OuTZvvSx/kdQ3I/hyLVlBnqk6hLgUazm8MVKo+fUGZAmKGFMFMHYUaOL2oh1ORCU3plMqu8ZiKronZCU2qYDMxtiSeUX4KboDzO4alUO3hCxcVYacrgUanqzuaYMhQrUd0msNw/xmLqpv88gbyCfRz8T8BW+D/9G5+B/3sOtjwNQf8Ba5XenyRN9/kAAAAASUVORK5CYII=" alt=""/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 256px) 256px, 100vw" decoding="async" loading="lazy" data-src="/static/c1de9437f04db0c876b83c9bc08fae80/99d55/test_icon.webp" data-srcset="/static/c1de9437f04db0c876b83c9bc08fae80/bfa43/test_icon.webp 64w,/static/c1de9437f04db0c876b83c9bc08fae80/b529c/test_icon.webp 128w,/static/c1de9437f04db0c876b83c9bc08fae80/99d55/test_icon.webp 256w" alt="thumbnail"/><noscript><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 256px) 256px, 100vw" decoding="async" loading="lazy" src="/static/c1de9437f04db0c876b83c9bc08fae80/99d55/test_icon.webp" srcSet="/static/c1de9437f04db0c876b83c9bc08fae80/bfa43/test_icon.webp 64w,/static/c1de9437f04db0c876b83c9bc08fae80/b529c/test_icon.webp 128w,/static/c1de9437f04db0c876b83c9bc08fae80/99d55/test_icon.webp 256w" alt="thumbnail"/></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1)}}</script></div><style data-emotion="css m1156n">.css-m1156n{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;width:768px;height:100%;margin:0 auto;padding:60px 0;color:#ffffff;}@media (max-width: 768px){.css-m1156n{width:100%;padding:40px 20px;}}</style><div class="css-m1156n e1st1jau3"><style data-emotion="css gywgo7">.css-gywgo7{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#ffffff;color:#000000;font-size:22px;cursor:pointer;box-shadow:0 0 10px rgba(0, 0, 0, 0.3);}@media (max-width: 768px){.css-gywgo7{width:30px;height:30px;font-size:18px;}}</style><div class="css-gywgo7 e1st1jau2"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-left" class="svg-inline--fa fa-arrow-left " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M447.1 256C447.1 273.7 433.7 288 416 288H109.3l105.4 105.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448s-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L109.3 224H416C433.7 224 447.1 238.3 447.1 256z"></path></svg></div><style data-emotion="css gn4qtp">.css-gn4qtp{display:-webkit-box;overflow:hidden;overflow-wrap:break-word;margin-top:auto;text-overflow:ellipsis;white-space:normal;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:45px;font-weight:800;}@media (max-width: 768px){.css-gn4qtp{font-size:30px;}}</style><div class="css-gn4qtp e1st1jau1">[kotlin] 레거시(legacy) 코드에 테스트 작성하기 2편</div><style data-emotion="css 3gcnt2">.css-3gcnt2{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-top:10px;font-size:18px;font-weight:700;}@media (max-width: 768px){.css-3gcnt2{-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;font-size:15px;font-weight:400;}}</style><div class="css-3gcnt2 e1st1jau0"><div>kotlin / legacy / test</div><div>2022.04.22.</div></div></div></div><style data-emotion="css uo146q">.css-uo146q{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;width:768px;margin:0 auto;padding:100px 0;word-break:break-all;line-height:1.8;font-size:16px;font-weight:400;}.css-uo146q p{padding:3px 0;}.css-uo146q h1,.css-uo146q h2,.css-uo146q h3{font-weight:800;margin-bottom:30px;}.css-uo146q *+h1,.css-uo146q *+h2,.css-uo146q *+h3{margin-top:80px;}.css-uo146q hr+h1,.css-uo146q hr+h2,.css-uo146q hr+h3{margin-top:0;}.css-uo146q h1{font-size:30px;}.css-uo146q h2{font-size:25px;}.css-uo146q h3{font-size:20px;}.css-uo146q blockquote{margin:30px 0;padding:5px 15px;border-left:2px solid #000000;font-weight:800;}.css-uo146q ol,.css-uo146q ul{margin-left:20px;padding:30px 0;}.css-uo146q hr{border:1px solid #000000;margin:100px 0;}.css-uo146q a{color:#4263eb;-webkit-text-decoration:underline;text-decoration:underline;}.css-uo146q pre[class*='language-']{margin:30px 0;padding:15px;font-size:15px;}.css-uo146q pre[class*='language-']::-webkit-scrollbar-thumb{background:rgba(255, 255, 255, 0.5);border-radius:3px;}.css-uo146q code[class*='language-'],.css-uo146q pre[class*='language-']{tab-size:2;}@media (max-width: 768px){.css-uo146q{width:100%;padding:80px 20px;line-height:1.6;font-size:14px;}.css-uo146q h1{font-size:23px;}.css-uo146q h2{font-size:20px;}.css-uo146q h3{font-size:17px;}.css-uo146q img{width:100%;}.css-uo146q hr{margin:50px 0;}}</style><div class="css-uo146q e1ijh0y10"><p>안녕하세요. 오늘은 <a href="https://sabarada.github.io/kotlin_legacy_code_refactoring_using_testcode_1" target="_blank" rel="nofollow"><code class="language-text">레거시 코드에 유닛 테스트를 100%를 작성하기 1편</code></a>에 이어서 테스트를 통해 실제로 라인커버리지를 100% 달성해보는 포스팅을 진행해보고자 합니다. 이전 편은 <code class="language-text">테스트 코드를 작성해야 하는 이유</code>에 대해서 설명했습니다. 관심있으신 분들은 한번 보시는것을 추천드립니다.</p>
+<h2>환경</h2>
+<p>이번 포스팅과 다음 포스팅에 진행되는 test 환경에는 JUnit5와 코틀린 mock에 주로 사용하는 mockk 라이브러리를 이용하였습니다. build.gradle.kts의 implementation는 아래와 같이 선언하였습니다.</p>
+<div class="gatsby-highlight" data-language="kotlin"><pre class="language-kotlin"><code class="language-kotlin"><span class="token comment">// JUnit5</span>
+<span class="token function">testImplementation</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"org.springframework.boot:spring-boot-starter-test"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">exclude</span><span class="token punctuation">(</span>group <span class="token operator">=</span> <span class="token string-literal singleline"><span class="token string">"org.junit.vintage"</span></span><span class="token punctuation">,</span> module <span class="token operator">=</span> <span class="token string-literal singleline"><span class="token string">"junit-vintage-engine"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// mockk</span>
+<span class="token function">testImplementation</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"io.mockk:mockk:1.12.3"</span></span><span class="token punctuation">)</span></code></pre></div>
+<h2>샘플 코드</h2>
+<p>오늘 테스트할 원본 코드는 아래와 같습니다. 한눈에 보더라도 레거시 코드인것 처럼 보입니다. 해당 메서드는 로그인한 유저가 파라미터로 받은 유저와 친구라면 여행리스트를 불러오는 메서드입니다. 한눈에 봤을 때 코드의 로직 흐름을 파악하기 어렵고 validation 코드와 실제 비즈니스 로직이 혼재해 있는 상태입니다. 이 코드를 안전하게 리팩토링하기 위해서 사전작업으로 테스트 코드를 만들어보도록 하겠습니다.</p>
+<div class="gatsby-highlight" data-language="kotlin"><pre class="language-kotlin"><code class="language-kotlin"><span class="token annotation builtin">@Throws</span><span class="token punctuation">(</span>UserNotLoggedInException<span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">fun</span> <span class="token function">getTripByUser</span><span class="token punctuation">(</span>user<span class="token operator">:</span> User<span class="token punctuation">)</span><span class="token operator">:</span> List<span class="token operator">&lt;</span>Trip<span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> tripList<span class="token operator">:</span> List<span class="token operator">&lt;</span>Trip<span class="token operator">></span> <span class="token operator">=</span> <span class="token function">ArrayList</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> loggedInUser<span class="token operator">:</span> User <span class="token operator">=</span> UserSession<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getLoggedUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">var</span> isFriend <span class="token operator">=</span> <span class="token boolean">false</span>
+    <span class="token keyword">return</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>loggedUser <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>friend <span class="token keyword">in</span> user<span class="token punctuation">.</span><span class="token function">getFriends</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>friend <span class="token operator">==</span> loggedUser<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                isFriend <span class="token operator">=</span> <span class="token boolean">true</span>
+                <span class="token keyword">break</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>isFriend<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            tripList <span class="token operator">=</span> tripRepository<span class="token punctuation">.</span><span class="token function">findTripsByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        tripList
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token function">UserNotLoggedInException</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<h2>테스트와 코드 커버리지</h2>
+<p>이제 테스트 코드를 작성하고 해당 테스트 코드에 따른 코드 커버리지를 확인해보는 시간을 가져보도록 하겠습니다. 코드 커버리지를 확인하는 방법은 <a href="(https://sabarada.tistory.com/221)">이전 포스팅</a>에 있으니 참고하시기 바랍니다.</p>
+<h3>코드와 커버리지</h3>
+<p>처음에는 기본적인 테스트를 한번 작성해보도록 하겠습니다. 해당 객체를 선언하고 <code class="language-text">getTripByUser</code>를 테스트 코드에서 호출해보도록 하겠습니다.</p>
+<div class="gatsby-highlight" data-language="kotlin"><pre class="language-kotlin"><code class="language-kotlin"><span class="token keyword">private</span> <span class="token keyword">val</span> sampleService<span class="token operator">:</span> SampleService <span class="token operator">=</span> <span class="token function">SampleService</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token annotation builtin">@Test</span>
+<span class="token keyword">fun</span> <span class="token function">getTripByUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> user <span class="token operator">=</span> <span class="token function">User</span><span class="token punctuation">(</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    sampleService<span class="token punctuation">.</span><span class="token function">getTripByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>테스트 결과 코드커버리지가 어떻게 되는지 아래 이미지를 확인해보도록 하겠습니다. 해당 테스트로 커버가 되는 부분은 초록색으로 되지 않는 부분은 빨간색으로 표시되는것을 확인하실 수 있습니다. 여기서 <code class="language-text">var isFriend</code> 부분을 커버하지 못한 이유는 UserSession으로 static 메서드를 호출하는데 여기서 에러가 났기 때문입니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 517px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0793debe8fa8d0033e250be67970e1bf/3414f/test_3.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 41.14583333333333%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAABwUlEQVQoz22P3W/ScBiFey1LYLRlG6zMWvrxk7ICsTA+HUPZcGW0sgWyBecCzIG3xhsv/NMfA0wv1IsnJ+fkzcl5pSPNQ+TamDkfL18g77hUjl2Kjo1rWxQcC113sIw3ZDWXFzsZYjvpLbFn/Z3F0khG0eO4eYbb7OBfXFJ6/4Fiq0Kp5VM7KyMaVUSrgXfapnxaJ1sqsO+84kDkNuwL49kbpF9bSMVJndpdl+48YPrzM7c/PtF5Oud82eHdY5eLVY/+sk9/NaCznNCYD2nMhtRnl9RnA5rziPbjzSb37ztI54ZGKASTis8q7PEl6DIqe9z5PoFjMrQ0IkcjtA8JTJ3AyjGwLQI7R2CbDByHKyE2Wd88QgqTMuO9Q+ZWmXvDZVHy+N475dvbNou8zdQQTPU8o4zOSN0jUlNE8ThRIrElHidc+3iCj4ldpDC1x1BVGB1kGGsGD8cFVnWfe0fwYOksThrMT5pMvSpj4XJtmoTJJKGqEirKP0ihmmLNcHOgMs7qLGs+X1s1bh3BqlLdrJ68zG7XyUkiRSGS5a3+xZ/CzVJFYbR/wFO5xtwrcpNJc53SGO7KXK3fk+Xtkmf9X+Evodz/ORptw5wAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/0793debe8fa8d0033e250be67970e1bf/a59e9/test_3.webp 192w,
+/static/0793debe8fa8d0033e250be67970e1bf/0ca9f/test_3.webp 384w,
+/static/0793debe8fa8d0033e250be67970e1bf/df279/test_3.webp 517w"
+              sizes="(max-width: 517px) 100vw, 517px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/0793debe8fa8d0033e250be67970e1bf/3b721/test_3.png 192w,
+/static/0793debe8fa8d0033e250be67970e1bf/66595/test_3.png 384w,
+/static/0793debe8fa8d0033e250be67970e1bf/3414f/test_3.png 517w"
+            sizes="(max-width: 517px) 100vw, 517px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/0793debe8fa8d0033e250be67970e1bf/3414f/test_3.png"
+            alt="test_3"
+            title="test_3"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<h2>static 클래스를 mockking 하자</h2>
+<p>그렇다면 우리는 이제 static 클래스의 메서드를 mockking하고 stub을 만들어야하는것을 알게되었습니다. 어떻게 할 수 있을까요? <strong>test 방법에 spy라는 개념이 있습니다. 해당 개념은 테스트하고자 하는 클래스의 로직을 기본적으로 남겨두고 특정 메서드만 mocking 할 수 있는 개념</strong>인데요. mockk를 이용하면 이 spy에서 dynamic call이라는 private method mockking 방법을 제공하고 있습니다. 해당 방법을 이용하면 손 쉽게 이를 해결할 수 있습니다. 각 용어에 대해서는 이전에 제가 작성한 <a href="https://sabarada.tistory.com/191" target="_blank" rel="nofollow">[mockk] 코틀린 테스트 프레임워크에 대해서 알아보자</a>를 참고하시면 좋을것 같습니다.</p>
+<p>먼저 해당하는 static 메서드를 private method로 래핑 합니다. 아래코드에서는 <code class="language-text">getLoggedUser()</code>라는 이름으로 래핑하였습니다.</p>
+<div class="gatsby-highlight" data-language="kotlin"><pre class="language-kotlin"><code class="language-kotlin"><span class="token annotation builtin">@Throws</span><span class="token punctuation">(</span>UserNotLoggedInException<span class="token operator">::</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">fun</span> <span class="token function">getTripByUser</span><span class="token punctuation">(</span>user<span class="token operator">:</span> User<span class="token punctuation">)</span><span class="token operator">:</span> List<span class="token operator">&lt;</span>Trip<span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> tripList<span class="token operator">:</span> List<span class="token operator">&lt;</span>Trip<span class="token operator">></span> <span class="token operator">=</span> <span class="token function">ArrayList</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> loggedUser<span class="token operator">:</span> User <span class="token operator">=</span> <span class="token function">getLoggedUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// static 메서드를 private method로 래핑</span>
+    <span class="token keyword">var</span> isFriend <span class="token operator">=</span> <span class="token boolean">false</span>
+    <span class="token keyword">return</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>loggedUser <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>friend <span class="token keyword">in</span> user<span class="token punctuation">.</span><span class="token function">getFriends</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>friend <span class="token operator">==</span> loggedUser<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                isFriend <span class="token operator">=</span> <span class="token boolean">true</span>
+                <span class="token keyword">break</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>isFriend<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            tripList <span class="token operator">=</span> tripRepository<span class="token punctuation">.</span><span class="token function">findTripsByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        tripList
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token function">UserNotLoggedInException</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">private</span> <span class="token keyword">fun</span> <span class="token function">getLoggedUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> User <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> UserSession<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getLoggedUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>그리고 이제 테스트 코드를 수정하도록 하겠습니다. 먼저 <code class="language-text">SampleService</code>로 해당 메서드가 있었던 클래스를 spyk를 이용해서 spy 클래스로 만들어줍니다. 이때 recordPrivateCalls 옵션을 통해서 private method를 mockking할 수 있도록 합니다. 그리고 실제 테스트 코드에서 every, 그리고 dynamic call을 이용하여 stub을 이용하면 됩니다.</p>
+<div class="gatsby-highlight" data-language="kotlin"><pre class="language-kotlin"><code class="language-kotlin"><span class="token keyword">private</span> <span class="token keyword">val</span> sampleService<span class="token operator">:</span> SampleService <span class="token operator">=</span> <span class="token function">spyk</span><span class="token punctuation">(</span> <span class="token comment">// 일반 클래스 spy 클래스로 변환</span>
+    objToCopy <span class="token operator">=</span> <span class="token function">SampleService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    recordPrivateCalls <span class="token operator">=</span> <span class="token boolean">true</span> <span class="token comment">// private method를 mockking 할 수 있도록 해당 옵션 true로 변경</span>
+<span class="token punctuation">)</span>
+
+<span class="token annotation builtin">@Test</span>
+<span class="token keyword">fun</span> <span class="token function">getTripByUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> user <span class="token operator">=</span> <span class="token function">User</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    every <span class="token punctuation">{</span> sampleService<span class="token punctuation">[</span><span class="token string-literal singleline"><span class="token string">"getLoggedUser"</span></span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span> returns user <span class="token comment">// dynamic call 처리로 private method stub 처리 </span>
+
+    sampleService<span class="token punctuation">.</span><span class="token function">getTripByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>그리고 테스트를 돌리면 아래와 같이 static 호출 method를 통과하는 것을 확인할 수 있습니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 768px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/41ecc09389cd04327e6ac64dea0a30ac/31384/test_4.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 89.58333333333334%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAABYlAAAWJQFJUiTwAAADaUlEQVQ4y3XM608iBxTG4fmoAgPjXJgbMDBch8tcAEFBRVHEXRHFRWtxG5tNNm227YdN//9fI7Xa7K4fnrznPTk5Qsauk9XrFHIu1YJF2bEp5XNUiw6uk6PoZMnYDqZexzLqJFImYtIgkdRJvKROQtTXe6HZ6FMcXqOOfsE+fiB9eE/Y28Vv1Ag7DRphE9dvUAkj/DDAqjRI5z0st4XpNrBLAXbRxy6F6HkPwZqEuNdTiqsl0e+PeJ9WFBZDqjc9wmWPwtUe2atjSh/OqC7PyF7tk56EGNMOxlkbc9rFmHbXqZ9FCMrMp3w9ovVwxPHXK/b/nOGu9gkfdnFv+zj3Z+TvLyiuFhRWc4zlAHXmo86CZ/6a8rwTtPcB5fmI1mpC//OM7ucLyj+N6N5fkLveI30Rkp33MC7baO9aaO980u+DNwnSVRt7eUDl/pzc7THe53MO/l6w+9eM5qcR7mpM/eMM4/4Y5XaAvOwjLTpI122kxfeEdlAi8PP0wirDrs/p6R7vzweMBm1OezWm5yNOZ2NOp6cMDod0OzXaYZHIL/yQsIzL3MW2WcYk7mIKP0sGX5p1vvZ2eMi4/FEJ+VKq81HTuU3I3G4kudtMvUm43NaYSyrzbY2ZpHKj6PzWGvJYabJQ01ylNOZJhUtRYp6SmaeU5/wxwUpZWEkTM2liSTZWysZKWBhxHSOexhT1Z8b/5m8kXglxx2UrlydZqpHIlxDzLmK+QMwpsJHJsWFl2LCza5uZb+XYyDhsZh22cg5bWQehOajR2KsSDZrsn+9x8+sFi8cZ/fM+4TikM2kTnQREYx9/FNAa+bSOQlpHEa3DFtGhR3P/6UdlTdiJafRiKp2YSk9MM636TMtNBkqWk2yVi3qXSaHBJO8xND320h4Dy2dgRwy1EhPVZlc02NmQ2dmUEaSORyIqox+2cU/6WIOAeFBCjCrEwxIx31339S58UkQMXcTAXfd4VEZsV0h2qoidKoLiFdGDBq3hAf54hLvjo1TzyGsOSu2/OY9cK/B0r3ilZ8UXsucie0WE/bjKQUJjKru802qMtArjXJux3eLE6TDOBIwz/rofmVUOnu635DcJlmxjaTnMbRtbyWIpOSzVwVRf84WSxZRMDMnAWOf3BFF1iKcs4pJFPGX+K2kQTxmv+cJ8vX3DP938FDKsLPIWAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/41ecc09389cd04327e6ac64dea0a30ac/a59e9/test_4.webp 192w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/0ca9f/test_4.webp 384w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/dc9b9/test_4.webp 768w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/91b06/test_4.webp 976w"
+              sizes="(max-width: 768px) 100vw, 768px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/41ecc09389cd04327e6ac64dea0a30ac/3b721/test_4.png 192w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/66595/test_4.png 384w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/fe486/test_4.png 768w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/31384/test_4.png 976w"
+            sizes="(max-width: 768px) 100vw, 768px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/41ecc09389cd04327e6ac64dea0a30ac/fe486/test_4.png"
+            alt="test_4"
+            title="test_4"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<h2>객체에 더미 데이터 넣기</h2>
+<p>for문에서 내부에 들어가지 못한 이유는 emptyList를 가지고 있었기 때문입니다. 따라서 stub으로 반환해주는 객체를 list를 포함하는 객체로 변경합니다. 또한 <code class="language-text">tripRepository.findTripsByUser(user)</code> 역시 외부 의존성으로 별도의 mockking 및 stub이 필요하므로 진행해줍니다. 외부 의존성은 아래처럼 기본적인 호출을 stub 해주는 코드로 작성하면 됩니다.</p>
+<div class="gatsby-highlight" data-language="kotlin"><pre class="language-kotlin"><code class="language-kotlin"><span class="token keyword">private</span> <span class="token keyword">val</span> sampleService<span class="token operator">:</span> SampleService <span class="token operator">=</span> <span class="token function">spyk</span><span class="token punctuation">(</span>
+    objToCopy <span class="token operator">=</span> <span class="token function">SampleService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    recordPrivateCalls <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token punctuation">)</span>
+
+<span class="token annotation builtin">@Test</span>
+<span class="token keyword">fun</span> <span class="token function">getTripByUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> user2 <span class="token operator">=</span> <span class="token function">User</span><span class="token punctuation">(</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> user <span class="token operator">=</span> <span class="token function">User</span><span class="token punctuation">(</span><span class="token function">listOf</span><span class="token punctuation">(</span>user2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    every <span class="token punctuation">{</span> sampleService<span class="token punctuation">[</span><span class="token string-literal singleline"><span class="token string">"getLoggedUser"</span></span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span> returns user2
+    every <span class="token punctuation">{</span> tripRepository<span class="token punctuation">.</span><span class="token function">findTripsByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span> <span class="token punctuation">}</span> returns <span class="token function">listof</span><span class="token punctuation">(</span><span class="token function">Trip</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">Trip</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 외부 의존성에 대한 stub</span>
+
+    sampleService<span class="token punctuation">.</span><span class="token function">getTripByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>그렇게 했을 때 코드 커버리지를 보도록 하겠습니다. 아래와 같이 이제 else 부분만 빼고 모두 커버되는것을 확인할 수 있습니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 768px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d3cb42907bae1a2cc03e5ee200de5fe6/61b91/test_5.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 86.97916666666667%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAADFElEQVQ4y43T6XPaRhjHcb3uZBJz6ABhLmNqG4QkJAEyp4mNuQQGAsY28dXONJ00eZFp//5vR8JO0+aYvvjM7vPszm92d2aFx8QhD6kyt1mNx5+PuM8d8sdBlvdZld/3fbvcZ1TuMzl+y+5zKSosX8mswirLUIxVNMkqussqkmAVjiNobgGrU6XWa3GyGNCZDbBPy7inOp1+ieqZid51qPSPcc9dzNcOR+4hhYZGoV6k2NQ/83tCaGKQnrc42vRofLqg+WnB3l2H4p1L7rpGajMgtZmyd3tJejNDWbcJTwzCU3PLnwf1tidII4PstIl21aP2zgvk1idY6wHpWR3Rs1GnVWLTCrJXRhobPyRII5Pk1EVb9skvuhy+PaXzcUL7/QTzrk1u2aR02UddNFAuqshTG8krI/oBnvkVQRlbiCMd1XPIzJoUbs+ovRtxdHmCtqhgPgzRf5miPcxJXw+IzWvIE2sbODa/PqE8Lj9dxcQPVy9qaL+e4X6Ykr7pUr4fYz8OyV7VkaY24lhH9AxEz/ymINAPC4JHJsqkjHu/wLobk1hUUMYO8sgiMixtT/F8ve+94bmqch6PBfpqnP7uLkM5zrms0JMl+jE5MIgp9L9J/hdhqMQYSjJeIokXU/EUBU+RGSsKQ1GkH4kwiEQZRKMMP4tsiVEGohjsG4lSQIhcOIRmFtK8SmrzGvfPFY2/1qQfe8jrBslNG/W6SfyqjriqIy4bSKsm0qqFuHSJv3EILxx2ZhahuYVgl3I42h5WKYddyjLuOEy6VRpOga6rM++1GLYr9JsW7apF03FoV6q0q8e0bJ2+ladm7GMXM9haBsEs59GNPSrHRU67Di3/G+kZSkY2UNBSFEtptKCX3tJTW0aGopFFN/cwngj1fIpGIcfIcZi3jhnbRZr5JPX9RKCR36W+/wV/LZ96kqQR1P8Qli8i+N6GUzxKB6zFHDcpk5tEkU3a4iapc5PQgvo6ccDqRZjVTzvfJVyEJWZijFkoynwnyjwkMnvmr31Z+15FfkhYiHFmL8PM/cbL8P/yvNcf/+tvx3kbPk9HwDYAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/d3cb42907bae1a2cc03e5ee200de5fe6/a59e9/test_5.webp 192w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/0ca9f/test_5.webp 384w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/dc9b9/test_5.webp 768w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/64775/test_5.webp 984w"
+              sizes="(max-width: 768px) 100vw, 768px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/d3cb42907bae1a2cc03e5ee200de5fe6/3b721/test_5.png 192w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/66595/test_5.png 384w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/fe486/test_5.png 768w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/61b91/test_5.png 984w"
+            sizes="(max-width: 768px) 100vw, 768px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/d3cb42907bae1a2cc03e5ee200de5fe6/fe486/test_5.png"
+            alt="test_5"
+            title="test_5"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<h2>반복하며 다른 함수 실행시키기</h2>
+<p>보통 이경우에 모두 커버하기 위해서는 테스트 코드를 쪼갭니다. 즉, if를 타는 테스트 메서드와 else를 타는 테스트로 말입니다. 하지만 이번에는 하나의 테스트 메서드에서 2번 각각 다르게 되도록 호출하였습니다. 코드는 아래와 같습니다. returnsMany를 이용하면 호출 순서에따라 다르게 반환하도록 가능합니다.</p>
+<div class="gatsby-highlight" data-language="kotlin"><pre class="language-kotlin"><code class="language-kotlin"><span class="token keyword">private</span> <span class="token keyword">val</span> sampleService<span class="token operator">:</span> SampleService <span class="token operator">=</span> <span class="token function">spyk</span><span class="token punctuation">(</span>
+    objToCopy <span class="token operator">=</span> <span class="token function">SampleService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    recordPrivateCalls <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token punctuation">)</span>
+
+<span class="token annotation builtin">@Test</span>
+<span class="token keyword">fun</span> <span class="token function">getTripByUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">val</span> user2 <span class="token operator">=</span> <span class="token function">User</span><span class="token punctuation">(</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> user <span class="token operator">=</span> <span class="token function">User</span><span class="token punctuation">(</span><span class="token function">listOf</span><span class="token punctuation">(</span>user2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    every <span class="token punctuation">{</span> sampleService<span class="token punctuation">[</span><span class="token string-literal singleline"><span class="token string">"getLoggedUser"</span></span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">returnsMany</span><span class="token punctuation">(</span>user2<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token comment">// 처음 호출은 user2, 두번째는 null을 반환합니다.</span>
+    sampleService<span class="token punctuation">.</span><span class="token function">getTripByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span> <span class="token comment">// 처음 호출</span>
+    sampleService<span class="token punctuation">.</span><span class="token function">getTripByUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span> <span class="token comment">// 두번째 호출</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>그리고 아래처럼 모든 코드가 커버되는 것을 확인할 수 있습니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 768px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4b0d8865e3080fdcbfb828e7f0c32df5/668eb/test_6.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 82.8125%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAADKElEQVQ4y43SaW/iVhSHcb/qEhJWLyHsGC+YzTYYCHaYkK3ZIEBJKJMoM5pOO9JIM+2o319PhYlSRWqkefHT/xzL9+oc6QqlYpNKoUtZ87CqBqZZpVUzsKsqllamrpepqGVyuTpawSEhFYjFM8QT2RdiiQyxRBah0mqjDmekrj6zd/MJZfqFytE5bs/GDmzsA5dSv0N12McOupR7Hkq9Qa7VJtt0Kbo9cnaHgtMj23QQpCub4jTAXJ4w+DIn+HqL/nBI9bFP46GPthpSWF6gP8yo3E8orE6Qxjby2EUeO0/pokw2vSBd2+Qn+5h3Iw7+mjH6e4G6ekNtMaA877M7OyC3OKZ4d07h9oT0fMD6zGs2E974NJcX2I/ntD9e0/pwRvDHnNr9MZl5B30+ID3zSF3WEK+a4UH52kF+zv8IyrXL7riNOhtSmY5QVwccf5vT/f2c3r1PfXVM42GKurqk8NsZe7cB8sTdXBqu/JKgXLnIVw7rSbOTHurikNq7Yxrvzsj/6mN/uKD3eRpmfnmEMumEk7y6snLTJjTdpHzj0vk05s23W6yPZ6i3hxjLEeLURp46yDcO8tR9lSAFddZE30I+aCINGxhHQ9TRgKRfRfRrpHwrJH4HIb6dIRbZI7aTIRbLEflZ4acfUkR+lIhu7RLdSj/l9xEkz0LsmMj9BvnAQzvpU/1lQP6wS9Izibsaibb+LNkxSHbWqYWZCHuDlGeGBOXpUa6zsPDxv845+meJ+f4U9e0h7T/H1N+fYT4eob49pXB3SnF5Sml1Sf5uhLXokZl1kSYO8sRBSFZUkmqZpK4hGjrpqknaqrL+Luka2XqdtGWhmAayYZLSDETdRDJqiJpBWlPDf+PlEgm1hCB6VVKdKtnAoT07oTU+RPQM4m6FRFsj5qhhHfZuheR67ZAW5vPKHTMkpGo6qaaJvh+g9Xxku4FitzZaLXZtG6XVRF6zG6QaOslahWRNe8qXBNE1ET0LyatR6nnk9rtkg4CMv09hOHqqB2T9AXt+F7FrkWwbpF4hJJJFYtFs+Gy2IzI7EYWdLTm0vSU91xsK0cgu0e000cj/+xegOAQnADjmrwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/4b0d8865e3080fdcbfb828e7f0c32df5/a59e9/test_6.webp 192w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/0ca9f/test_6.webp 384w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/dc9b9/test_6.webp 768w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/e6a50/test_6.webp 1008w"
+              sizes="(max-width: 768px) 100vw, 768px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/4b0d8865e3080fdcbfb828e7f0c32df5/3b721/test_6.png 192w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/66595/test_6.png 384w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/fe486/test_6.png 768w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/668eb/test_6.png 1008w"
+            sizes="(max-width: 768px) 100vw, 768px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/4b0d8865e3080fdcbfb828e7f0c32df5/fe486/test_6.png"
+            alt="test_6"
+            title="test_6"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<h2>마무리</h2>
+<p>이제 리팩토링을 하기 위한 기초 작업은 마무리 되었습니다. 남은 일은 이렇게 짜여진 테스트 코드를 기반으로 리팩토링을 진행하는 것입니다. 테스트 코드를 짜고 리팩토링을하면 리팩토링했을 때 잘못하는 케이스를 막을 수 있으므로 자신감있게 할 수 있게 됩니다.</p>
+<p>다음시간에는 리팩토링을 진행해보도록 하겠습니다.</p>
+<p>감사합니다.</p>
+<h2>참조</h2>
+<p>[1] <a href="https://www.youtube.com/watch?v=LSqbXorkyfQ" target="_blank" rel="nofollow">https://www.youtube.com/watch?v=LSqbXorkyfQ</a></p>
+<p>[2] <a href="https://mockk.io" target="_blank" rel="nofollow">https://mockk.io</a></p></div><style data-emotion="css hx9xpc">@media (max-width: 768px){.css-hx9xpc{padding:0 20px;}}</style><div class="css-hx9xpc e1gqsjds0"></div><style data-emotion="css 9w9jmx">.css-9w9jmx{display:grid;place-items:center;margin-top:auto;padding:50px 0;font-size:15px;text-align:center;line-height:1.5;}@media (max-width: 768px){.css-9w9jmx{font-size:13px;}}</style><div class="css-9w9jmx e1oae0v80">Thank You for Visiting My Blog, Have a Good Day 😆<br/>© 2022 Developer sabarada, Powered By Gatsby.</div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/kotlin_legacy_code_refactoring_using_testcode_2/";window.___webpackCompilationHash="5d937916ccc75399d1e3";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-4718f0fec20e0d09d7f5.js"],"app":["/app-df24b4ed16db526209b6.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-6a702f3d2a3fc33f80b0.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-f8886f1819d7f0d44cdc.js"],"component---src-pages-info-tsx":["/component---src-pages-info-tsx-bf1fc12da9cc35d3c154.js"],"component---src-templates-post-template-tsx":["/component---src-templates-post-template-tsx-6ca5a3f6285697798720.js"]};/*]]>*/</script><script src="/polyfill-4718f0fec20e0d09d7f5.js" nomodule=""></script><script src="/component---src-templates-post-template-tsx-6ca5a3f6285697798720.js" async=""></script><script src="/d0dcf9c1039535d44ee74defc829dfbf62dac3c5-0063e160d75349c4f13b.js" async=""></script><script src="/cb1608f2-d860e9dbef9a05cd5b64.js" async=""></script><script src="/app-df24b4ed16db526209b6.js" async=""></script><script src="/framework-6bdc9aaa9caa3de6408b.js" async=""></script><script src="/webpack-runtime-11e1639cca6193f451b2.js" async=""></script></body></html>

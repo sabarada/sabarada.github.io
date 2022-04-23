@@ -1,4 +1,645 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Your Site's RSS Feed]]></title><description><![CDATA[Sabarda Blog.]]></description><link>https://sabarada.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 09 Apr 2022 13:07:38 GMT</lastBuildDate><author><![CDATA[Karol]]></author><item><title><![CDATA[[java] ThreadLocal에 관하여]]></title><description><![CDATA[안녕하세요. 오늘은 ThreadLocal에 대해서 알아보도록 하겠습니다. 변수를 공유하는 방법 객체는 Heap 또는 Stack 메모리 영역에 배치시킬 수 있습니다. Heap 영역은 일반적으로 모든 thread에서 접근 할 수 있으며 stack…]]></description><link>https://sabarada.github.io/[java]_about_ThreadLocal/</link><guid isPermaLink="false">https://sabarada.github.io/[java]_about_ThreadLocal/</guid><dc:creator><![CDATA[Karol]]></dc:creator><pubDate>Sat, 15 May 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;안녕하세요. 오늘은 ThreadLocal에 대해서 알아보도록 하겠습니다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Your Site's RSS Feed]]></title><description><![CDATA[Sabarda Blog.]]></description><link>https://sabarada.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 23 Apr 2022 07:09:16 GMT</lastBuildDate><author><![CDATA[Karol]]></author><item><title><![CDATA[[React] Backend 개발자가 admin을 만들기 위해 하는 react 정리 1편]]></title><description><![CDATA[안녕하세요. 오늘은 React로 admin 개발을 하면서 공부했던 React…]]></description><link>https://sabarada.github.io/react_summary_from_backend_developer_1/</link><guid isPermaLink="false">https://sabarada.github.io/react_summary_from_backend_developer_1/</guid><dc:creator><![CDATA[Karol]]></dc:creator><pubDate>Fri, 22 Apr 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;안녕하세요. 오늘은 React로 admin 개발을 하면서 공부했던 React를 사용하기 위해서 배웠던 내용을 정리하려고 합니다. 같은 방법에 대해서 고민하셨던 부분이 있으셨다면 이 포스팅으로 해결하셨으면 좋겠습니다. 아마 아주 기초적인 부분들이 주를 이룰것으로 보이기때문에.. 적절히 걸러서 보시는게 좋을 수 있습니다. :)&lt;/p&gt;
+&lt;p&gt;오늘 정리할 내용은 react에서 component들 사이에 데이터 전달의 기본이 되는 props와 event에 대해서입니다.&lt;/p&gt;
+&lt;h2&gt;component(컴포넌트)와 데이터 전달&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;React에서 Component는 UI를 이루는 HTML을 반환하는 작은 단위&lt;/strong&gt;입니다. Component는 한번 만들면 원하는 곳에서 재사용하는 것이 가능합니다. Java에서의 class 또는 메서드라고 생각하시면됩니다. class와 메서드(함수)가 한번 정의해두면 원해는 곳에서 불러서 사용할 수 있듯이 &lt;strong&gt;Component는 UI를 원하는 곳에 불러서 배치할 수 있는 것&lt;/strong&gt;입니다.&lt;/p&gt;
+&lt;p&gt;컴포넌트는 전체적으로 Tree 구조를 가집니다. 그리고 또 다른 컴포넌트에게 데이터를 넘기는 것이 가능합니다. 먼저 아래에서 컴포넌트 개념을 코드로 알아보겠습니다. react 코드는 기본적으로 아래와 같은 구조를 가집니다. 아래 처럼 코딩을 먼저하면 Details라는 하나의 컴포넌트가 완성 된 것입니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; React &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;react&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./Details.css&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;Details&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;p&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;HI&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;SABARADA&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;p&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; Details&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 선언된 Details라는 컴포넌트는 아래처럼 사용할 수 있습니다. 아래를 보시면 &lt;code class=&quot;language-text&quot;&gt;div&lt;/code&gt; 태그 안쪽에 &lt;code class=&quot;language-text&quot;&gt;Details&lt;/code&gt; 태그가 선언된 것을 보실 수 있습니다. 이것이 우리가 직접 선언한 위의 Details 컴포넌트를 사용하는 방법입니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./App.css&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; Details &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./components/Details&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;div className&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;App&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+      &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Details&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;Details&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// Details 컴포넌트를 사용하는 것&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;div&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; App&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 선언하게되면 아래와 같은 결과를 얻을 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 534px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3b44b5e087dbbc74e9a11315d2796931/f1de1/react_1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 20.3125%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAoklEQVQY03WPTQuCQBCG/f+/JpKiOpSW2UWiCCv3oLmmffhRh3K30xuzkSyUh5cZhplneIz48oSew/mBtBBISwl+rZFVUvVZKdWc6jEXOFWvZl+/N3QQJckF7GWE0YLBWcUwp1uYto+BG6A326k59RSW3NVTHfoHWGO+5ph4ISwvRNfy0RlvGuDQZeg7e/Uk4Ld24I9yIRWc1EjzWz/qslX5DcswJBfmNIXsAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/3b44b5e087dbbc74e9a11315d2796931/a59e9/react_1.webp 192w,
+/static/3b44b5e087dbbc74e9a11315d2796931/0ca9f/react_1.webp 384w,
+/static/3b44b5e087dbbc74e9a11315d2796931/c7900/react_1.webp 534w&quot;
+              sizes=&quot;(max-width: 534px) 100vw, 534px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/3b44b5e087dbbc74e9a11315d2796931/3b721/react_1.png 192w,
+/static/3b44b5e087dbbc74e9a11315d2796931/66595/react_1.png 384w,
+/static/3b44b5e087dbbc74e9a11315d2796931/f1de1/react_1.png 534w&quot;
+            sizes=&quot;(max-width: 534px) 100vw, 534px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/3b44b5e087dbbc74e9a11315d2796931/f1de1/react_1.png&quot;
+            alt=&quot;react_1.png&quot;
+            title=&quot;react_1.png&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;props&lt;/h2&gt;
+&lt;p&gt;컴포넌트간의 데이터를 전달하는 방법중 가장 기본이되는 props에 대해서 알아보도록하겠습니다. props는 상위 컴포넌트에서 본인이 포함하고 있는 하위 컴포넌트에 데이터를 전달하는 방법입니다. 코드를 보기전에 props를 사용함에 있어서 주의해야할 점을 먼저 짚어봅시다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;props는 읽기 전용&lt;/strong&gt;입니다.
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;함수 컴포넌트나 클래스 컴포넌트 모두 컴포넌트의 자체 props를 수정해서는 안 됩니다.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;즉, 순수 함수&lt;/li&gt;
+&lt;li&gt;수정을 하고 싶다면 props를 먼저 copy하고 이를 수정하면 됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;props를 이용할 수 있도록 위에서 보았던 코드를 수정해보았습니다. 아래 코드에 Details 함수에 props라는 파라미터가 추가되었고 props에서 &lt;code class=&quot;language-text&quot;&gt;title&lt;/code&gt;을 가져와서 데이터로 넣어주고 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; React &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;react&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./Details.css&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;Details&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;p&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;props&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;title&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;p&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; Details&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이와 맞춰 상위 컴포넌트에서는 Details에 &lt;code class=&quot;language-text&quot;&gt;title&lt;/code&gt; 속성을 추가해서 내려보내고 있습니다. 이렇게 내려보내기 때문에 Details 함수에서는 이를 이용할 수 있게 된 것을 알 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./App.css&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; Details &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./components/Details&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;div className&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;App&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+      &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Details title&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;나는 Karol 입니다.&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;Details&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;div&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; App&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 488px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/68d6de67010c42561c47d107ef22b738/4cd97/react_2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 21.875%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAuElEQVQY022PSwuCUBCF/f8/JAjaRCRCWlQiamUvUUPFd5YaLSptd+JeuuaixcfM3Jk5dw4XXV8ghJcnjWnZIClrSlo1yG5vCnsnc0lR05r04+K3S+CYGBly4jsk3QMvOxA1D3MjwGhu0VzSfUx1HwNxj4nqQtRc9IUtlEPSfkTgutcF+QOamUFQTlRkbecYzkyMlzatV9YZPX6DhRFCPaaQdxEVZPutYFc0Izar5q/lLtm3x65jlj+dcCJxXoB9WwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/68d6de67010c42561c47d107ef22b738/a59e9/react_2.webp 192w,
+/static/68d6de67010c42561c47d107ef22b738/0ca9f/react_2.webp 384w,
+/static/68d6de67010c42561c47d107ef22b738/a6b86/react_2.webp 488w&quot;
+              sizes=&quot;(max-width: 488px) 100vw, 488px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/68d6de67010c42561c47d107ef22b738/3b721/react_2.png 192w,
+/static/68d6de67010c42561c47d107ef22b738/66595/react_2.png 384w,
+/static/68d6de67010c42561c47d107ef22b738/4cd97/react_2.png 488w&quot;
+            sizes=&quot;(max-width: 488px) 100vw, 488px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/68d6de67010c42561c47d107ef22b738/4cd97/react_2.png&quot;
+            alt=&quot;react_2.png&quot;
+            title=&quot;react_2.png&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;props.children에 대해서 알아보자&lt;/h2&gt;
+&lt;p&gt;추가적으로 props의 children에 대해서 알아보도록 하겠습니다. children은 props에 이미 정의된 변수입니다. 하는 역할은 props가 가지고 있는 하위 tags들 나타내 주는 역할을 합니다. &lt;strong&gt;Wrapper(래핑)를 만들때 주로 이용&lt;/strong&gt;합니다.&lt;/p&gt;
+&lt;p&gt;아래 코드를 보시면 Details 상위에 Card라는 새로운 커스텀 컴포넌트를 추가했습니다. 이것의 목적은 Card가 Details를 래핑하도록 하는 역할을 하고자합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./App.css&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; Details &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./components/Details&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; Card &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./UI/Card&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;div className&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;App&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+      &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Card&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+        &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Details title&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;나는 Karol 입니다.&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;Details&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;Card&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;div&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; App&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 이에 맞는 Card 컴포넌트를 만들었습니다. 하는 역할은 보시면 아시겠지만 css를 래핑하는 역할이라고 보시면됩니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; classes &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./Card.module.css&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;Card&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;div className&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;classes&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;card&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;div&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; Card&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그렇다면 실행해보겠습니다. 아래와 같이 내부 태그의 내용이 노출되지 않는것을 확인하실 수 있습니다. &lt;strong&gt;왜냐하면 Card 내부에는 내부 태그에 대한 정보가 없기 때문입니다. 이때 사용할 수 있는것이 props.children 입니다.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 768px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/90eaa44872b7b2e4fa159685a1dd1267/a2b43/react_3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 3.125%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAD0lEQVQI12P48Pn7f2piACu1TPWKZOgKAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/90eaa44872b7b2e4fa159685a1dd1267/a59e9/react_3.webp 192w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/0ca9f/react_3.webp 384w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/dc9b9/react_3.webp 768w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/e2c2f/react_3.webp 1152w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/f3efb/react_3.webp 1536w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/659cc/react_3.webp 3566w&quot;
+              sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/90eaa44872b7b2e4fa159685a1dd1267/3b721/react_3.png 192w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/66595/react_3.png 384w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/fe486/react_3.png 768w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/d2d74/react_3.png 1152w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/e8464/react_3.png 1536w,
+/static/90eaa44872b7b2e4fa159685a1dd1267/a2b43/react_3.png 3566w&quot;
+            sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/90eaa44872b7b2e4fa159685a1dd1267/fe486/react_3.png&quot;
+            alt=&quot;react_3&quot;
+            title=&quot;react_3&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Card의 코딩을 아래와 같이 바꾸도록 하겠습니다. &lt;strong&gt;props.children을 가져와서 해당 태그(Card)의 내부에 있는 tag를 가져와서 대입시켜주는 역할&lt;/strong&gt;을 합니다. 아래처럼 바꿨습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; classes &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./Card.module.css&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;Card&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;div className&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;classes&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;card&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;props&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;children&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;div&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; Card&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 바꾸고 실행했을 때 정상적으로 원하는 대로 노출된 것을 알 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 768px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ac1631dc7294ad15713c2b8af105a8ed/a2b43/react_4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.8125%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAOUlEQVQI14XKwRHAIAgAQfsvNhkziiDEc2wAH/vb4vGTmR68n/DUjpoTsdJfTsoMc5oYrStDJ7e/Ab8enPvE46WbAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/ac1631dc7294ad15713c2b8af105a8ed/a59e9/react_4.webp 192w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/0ca9f/react_4.webp 384w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/dc9b9/react_4.webp 768w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/e2c2f/react_4.webp 1152w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/f3efb/react_4.webp 1536w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/659cc/react_4.webp 3566w&quot;
+              sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/ac1631dc7294ad15713c2b8af105a8ed/3b721/react_4.png 192w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/66595/react_4.png 384w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/fe486/react_4.png 768w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/d2d74/react_4.png 1152w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/e8464/react_4.png 1536w,
+/static/ac1631dc7294ad15713c2b8af105a8ed/a2b43/react_4.png 3566w&quot;
+            sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/ac1631dc7294ad15713c2b8af105a8ed/fe486/react_4.png&quot;
+            alt=&quot;react_4&quot;
+            title=&quot;react_4&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;마무리&lt;/h2&gt;
+&lt;p&gt;오늘은 이렇게 component, props 그리고 props.children을 정리해보는 시간을 가져보았습니다.&lt;/p&gt;
+&lt;p&gt;감사합니다.&lt;/p&gt;
+&lt;h2&gt;참조&lt;/h2&gt;
+&lt;p&gt;[1] &lt;a href=&quot;https://matchgroup.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/25600888#overview&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://matchgroup.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/25600888#overview&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a href=&quot;https://ko.reactjs.org/docs/components-and-props.html&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://ko.reactjs.org/docs/components-and-props.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[3] &lt;a href=&quot;https://stackoverflow.com/questions/49706823/what-is-this-props-children-and-when-you-should-use-it&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://stackoverflow.com/questions/49706823/what-is-this-props-children-and-when-you-should-use-it&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[4] &lt;a href=&quot;https://www.w3schools.com/react/react_components.asp&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://www.w3schools.com/react/react_components.asp&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[kotlin] 레거시(legacy) 코드에 테스트 작성하기 2편]]></title><description><![CDATA[안녕하세요. 오늘은 에 이어서 테스트를 통해 실제로 라인커버리지를 100% 달성해보는 포스팅을 진행해보고자 합니다. 이전 편은 에 대해서 설명했습니다. 관심있으신 분들은 한번 보시는것을 추천드립니다. 환경 이번 포스팅과 다음 포스팅에 진행되는 test…]]></description><link>https://sabarada.github.io/kotlin_legacy_code_refactoring_using_testcode_2/</link><guid isPermaLink="false">https://sabarada.github.io/kotlin_legacy_code_refactoring_using_testcode_2/</guid><dc:creator><![CDATA[Karol]]></dc:creator><pubDate>Fri, 22 Apr 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;안녕하세요. 오늘은 &lt;a href=&quot;https://sabarada.github.io/kotlin_legacy_code_refactoring_using_testcode_1&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;레거시 코드에 유닛 테스트를 100%를 작성하기 1편&lt;/code&gt;&lt;/a&gt;에 이어서 테스트를 통해 실제로 라인커버리지를 100% 달성해보는 포스팅을 진행해보고자 합니다. 이전 편은 &lt;code class=&quot;language-text&quot;&gt;테스트 코드를 작성해야 하는 이유&lt;/code&gt;에 대해서 설명했습니다. 관심있으신 분들은 한번 보시는것을 추천드립니다.&lt;/p&gt;
+&lt;h2&gt;환경&lt;/h2&gt;
+&lt;p&gt;이번 포스팅과 다음 포스팅에 진행되는 test 환경에는 JUnit5와 코틀린 mock에 주로 사용하는 mockk 라이브러리를 이용하였습니다. build.gradle.kts의 implementation는 아래와 같이 선언하였습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// JUnit5&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;testImplementation&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;org.springframework.boot:spring-boot-starter-test&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;exclude&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;group &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;org.junit.vintage&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; module &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;junit-vintage-engine&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// mockk&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;testImplementation&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;io.mockk:mockk:1.12.3&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;샘플 코드&lt;/h2&gt;
+&lt;p&gt;오늘 테스트할 원본 코드는 아래와 같습니다. 한눈에 보더라도 레거시 코드인것 처럼 보입니다. 해당 메서드는 로그인한 유저가 파라미터로 받은 유저와 친구라면 여행리스트를 불러오는 메서드입니다. 한눈에 봤을 때 코드의 로직 흐름을 파악하기 어렵고 validation 코드와 실제 비즈니스 로직이 혼재해 있는 상태입니다. 이 코드를 안전하게 리팩토링하기 위해서 사전작업으로 테스트 코드를 만들어보도록 하겠습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token annotation builtin&quot;&gt;@Throws&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;UserNotLoggedInException&lt;span class=&quot;token operator&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; User&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; List&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Trip&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; tripList&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; List&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Trip&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; loggedInUser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; User &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; UserSession&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getLoggedUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; isFriend &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;loggedUser &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;friend &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; user&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getFriends&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;friend &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; loggedUser&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                isFriend &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;break&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;isFriend&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            tripList &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; tripRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findTripsByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        tripList
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;UserNotLoggedInException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;테스트와 코드 커버리지&lt;/h2&gt;
+&lt;p&gt;이제 테스트 코드를 작성하고 해당 테스트 코드에 따른 코드 커버리지를 확인해보는 시간을 가져보도록 하겠습니다. 코드 커버리지를 확인하는 방법은 &lt;a href=&quot;(https://sabarada.tistory.com/221)&quot;&gt;이전 포스팅&lt;/a&gt;에 있으니 참고하시기 바랍니다.&lt;/p&gt;
+&lt;h3&gt;코드와 커버리지&lt;/h3&gt;
+&lt;p&gt;처음에는 기본적인 테스트를 한번 작성해보도록 하겠습니다. 해당 객체를 선언하고 &lt;code class=&quot;language-text&quot;&gt;getTripByUser&lt;/code&gt;를 테스트 코드에서 호출해보도록 하겠습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; sampleService&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; SampleService &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;SampleService&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token annotation builtin&quot;&gt;@Test&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; user &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;emptyList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    sampleService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;테스트 결과 코드커버리지가 어떻게 되는지 아래 이미지를 확인해보도록 하겠습니다. 해당 테스트로 커버가 되는 부분은 초록색으로 되지 않는 부분은 빨간색으로 표시되는것을 확인하실 수 있습니다. 여기서 &lt;code class=&quot;language-text&quot;&gt;var isFriend&lt;/code&gt; 부분을 커버하지 못한 이유는 UserSession으로 static 메서드를 호출하는데 여기서 에러가 났기 때문입니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 517px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0793debe8fa8d0033e250be67970e1bf/3414f/test_3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 41.14583333333333%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAABwUlEQVQoz22P3W/ScBiFey1LYLRlG6zMWvrxk7ICsTA+HUPZcGW0sgWyBecCzIG3xhsv/NMfA0wv1IsnJ+fkzcl5pSPNQ+TamDkfL18g77hUjl2Kjo1rWxQcC113sIw3ZDWXFzsZYjvpLbFn/Z3F0khG0eO4eYbb7OBfXFJ6/4Fiq0Kp5VM7KyMaVUSrgXfapnxaJ1sqsO+84kDkNuwL49kbpF9bSMVJndpdl+48YPrzM7c/PtF5Oud82eHdY5eLVY/+sk9/NaCznNCYD2nMhtRnl9RnA5rziPbjzSb37ztI54ZGKASTis8q7PEl6DIqe9z5PoFjMrQ0IkcjtA8JTJ3AyjGwLQI7R2CbDByHKyE2Wd88QgqTMuO9Q+ZWmXvDZVHy+N475dvbNou8zdQQTPU8o4zOSN0jUlNE8ThRIrElHidc+3iCj4ldpDC1x1BVGB1kGGsGD8cFVnWfe0fwYOksThrMT5pMvSpj4XJtmoTJJKGqEirKP0ihmmLNcHOgMs7qLGs+X1s1bh3BqlLdrJ68zG7XyUkiRSGS5a3+xZ/CzVJFYbR/wFO5xtwrcpNJc53SGO7KXK3fk+Xtkmf9X+Evodz/ORptw5wAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/0793debe8fa8d0033e250be67970e1bf/a59e9/test_3.webp 192w,
+/static/0793debe8fa8d0033e250be67970e1bf/0ca9f/test_3.webp 384w,
+/static/0793debe8fa8d0033e250be67970e1bf/df279/test_3.webp 517w&quot;
+              sizes=&quot;(max-width: 517px) 100vw, 517px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/0793debe8fa8d0033e250be67970e1bf/3b721/test_3.png 192w,
+/static/0793debe8fa8d0033e250be67970e1bf/66595/test_3.png 384w,
+/static/0793debe8fa8d0033e250be67970e1bf/3414f/test_3.png 517w&quot;
+            sizes=&quot;(max-width: 517px) 100vw, 517px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/0793debe8fa8d0033e250be67970e1bf/3414f/test_3.png&quot;
+            alt=&quot;test_3&quot;
+            title=&quot;test_3&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;static 클래스를 mockking 하자&lt;/h2&gt;
+&lt;p&gt;그렇다면 우리는 이제 static 클래스의 메서드를 mockking하고 stub을 만들어야하는것을 알게되었습니다. 어떻게 할 수 있을까요? &lt;strong&gt;test 방법에 spy라는 개념이 있습니다. 해당 개념은 테스트하고자 하는 클래스의 로직을 기본적으로 남겨두고 특정 메서드만 mocking 할 수 있는 개념&lt;/strong&gt;인데요. mockk를 이용하면 이 spy에서 dynamic call이라는 private method mockking 방법을 제공하고 있습니다. 해당 방법을 이용하면 손 쉽게 이를 해결할 수 있습니다. 각 용어에 대해서는 이전에 제가 작성한 &lt;a href=&quot;https://sabarada.tistory.com/191&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;[mockk] 코틀린 테스트 프레임워크에 대해서 알아보자&lt;/a&gt;를 참고하시면 좋을것 같습니다.&lt;/p&gt;
+&lt;p&gt;먼저 해당하는 static 메서드를 private method로 래핑 합니다. 아래코드에서는 &lt;code class=&quot;language-text&quot;&gt;getLoggedUser()&lt;/code&gt;라는 이름으로 래핑하였습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token annotation builtin&quot;&gt;@Throws&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;UserNotLoggedInException&lt;span class=&quot;token operator&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; User&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; List&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Trip&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; tripList&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; List&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Trip&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; loggedUser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; User &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getLoggedUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// static 메서드를 private method로 래핑&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; isFriend &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;loggedUser &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;friend &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; user&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getFriends&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;friend &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; loggedUser&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                isFriend &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;break&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;isFriend&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            tripList &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; tripRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findTripsByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        tripList
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;UserNotLoggedInException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getLoggedUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; User &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; UserSession&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getLoggedUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 이제 테스트 코드를 수정하도록 하겠습니다. 먼저 &lt;code class=&quot;language-text&quot;&gt;SampleService&lt;/code&gt;로 해당 메서드가 있었던 클래스를 spyk를 이용해서 spy 클래스로 만들어줍니다. 이때 recordPrivateCalls 옵션을 통해서 private method를 mockking할 수 있도록 합니다. 그리고 실제 테스트 코드에서 every, 그리고 dynamic call을 이용하여 stub을 이용하면 됩니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; sampleService&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; SampleService &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;spyk&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 일반 클래스 spy 클래스로 변환&lt;/span&gt;
+    objToCopy &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;SampleService&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    recordPrivateCalls &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// private method를 mockking 할 수 있도록 해당 옵션 true로 변경&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token annotation builtin&quot;&gt;@Test&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; user &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    every &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; sampleService&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;getLoggedUser&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; returns user &lt;span class=&quot;token comment&quot;&gt;// dynamic call 처리로 private method stub 처리 &lt;/span&gt;
+
+    sampleService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 테스트를 돌리면 아래와 같이 static 호출 method를 통과하는 것을 확인할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 768px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/41ecc09389cd04327e6ac64dea0a30ac/31384/test_4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 89.58333333333334%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAABYlAAAWJQFJUiTwAAADaUlEQVQ4y3XM608iBxTG4fmoAgPjXJgbMDBch8tcAEFBRVHEXRHFRWtxG5tNNm227YdN//9fI7Xa7K4fnrznPTk5Qsauk9XrFHIu1YJF2bEp5XNUiw6uk6PoZMnYDqZexzLqJFImYtIgkdRJvKROQtTXe6HZ6FMcXqOOfsE+fiB9eE/Y28Vv1Ag7DRphE9dvUAkj/DDAqjRI5z0st4XpNrBLAXbRxy6F6HkPwZqEuNdTiqsl0e+PeJ9WFBZDqjc9wmWPwtUe2atjSh/OqC7PyF7tk56EGNMOxlkbc9rFmHbXqZ9FCMrMp3w9ovVwxPHXK/b/nOGu9gkfdnFv+zj3Z+TvLyiuFhRWc4zlAHXmo86CZ/6a8rwTtPcB5fmI1mpC//OM7ucLyj+N6N5fkLveI30Rkp33MC7baO9aaO980u+DNwnSVRt7eUDl/pzc7THe53MO/l6w+9eM5qcR7mpM/eMM4/4Y5XaAvOwjLTpI122kxfeEdlAi8PP0wirDrs/p6R7vzweMBm1OezWm5yNOZ2NOp6cMDod0OzXaYZHIL/yQsIzL3MW2WcYk7mIKP0sGX5p1vvZ2eMi4/FEJ+VKq81HTuU3I3G4kudtMvUm43NaYSyrzbY2ZpHKj6PzWGvJYabJQ01ylNOZJhUtRYp6SmaeU5/wxwUpZWEkTM2liSTZWysZKWBhxHSOexhT1Z8b/5m8kXglxx2UrlydZqpHIlxDzLmK+QMwpsJHJsWFl2LCza5uZb+XYyDhsZh22cg5bWQehOajR2KsSDZrsn+9x8+sFi8cZ/fM+4TikM2kTnQREYx9/FNAa+bSOQlpHEa3DFtGhR3P/6UdlTdiJafRiKp2YSk9MM636TMtNBkqWk2yVi3qXSaHBJO8xND320h4Dy2dgRwy1EhPVZlc02NmQ2dmUEaSORyIqox+2cU/6WIOAeFBCjCrEwxIx31339S58UkQMXcTAXfd4VEZsV0h2qoidKoLiFdGDBq3hAf54hLvjo1TzyGsOSu2/OY9cK/B0r3ilZ8UXsucie0WE/bjKQUJjKru802qMtArjXJux3eLE6TDOBIwz/rofmVUOnu635DcJlmxjaTnMbRtbyWIpOSzVwVRf84WSxZRMDMnAWOf3BFF1iKcs4pJFPGX+K2kQTxmv+cJ8vX3DP938FDKsLPIWAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/41ecc09389cd04327e6ac64dea0a30ac/a59e9/test_4.webp 192w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/0ca9f/test_4.webp 384w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/dc9b9/test_4.webp 768w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/91b06/test_4.webp 976w&quot;
+              sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/41ecc09389cd04327e6ac64dea0a30ac/3b721/test_4.png 192w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/66595/test_4.png 384w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/fe486/test_4.png 768w,
+/static/41ecc09389cd04327e6ac64dea0a30ac/31384/test_4.png 976w&quot;
+            sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/41ecc09389cd04327e6ac64dea0a30ac/fe486/test_4.png&quot;
+            alt=&quot;test_4&quot;
+            title=&quot;test_4&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;객체에 더미 데이터 넣기&lt;/h2&gt;
+&lt;p&gt;for문에서 내부에 들어가지 못한 이유는 emptyList를 가지고 있었기 때문입니다. 따라서 stub으로 반환해주는 객체를 list를 포함하는 객체로 변경합니다. 또한 &lt;code class=&quot;language-text&quot;&gt;tripRepository.findTripsByUser(user)&lt;/code&gt; 역시 외부 의존성으로 별도의 mockking 및 stub이 필요하므로 진행해줍니다. 외부 의존성은 아래처럼 기본적인 호출을 stub 해주는 코드로 작성하면 됩니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; sampleService&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; SampleService &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;spyk&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    objToCopy &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;SampleService&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    recordPrivateCalls &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token annotation builtin&quot;&gt;@Test&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; user2 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;emptyList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; user &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;listOf&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user2&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    every &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; sampleService&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;getLoggedUser&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; returns user2
+    every &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; tripRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findTripsByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; returns &lt;span class=&quot;token function&quot;&gt;listof&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Trip&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Trip&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 외부 의존성에 대한 stub&lt;/span&gt;
+
+    sampleService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그렇게 했을 때 코드 커버리지를 보도록 하겠습니다. 아래와 같이 이제 else 부분만 빼고 모두 커버되는것을 확인할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 768px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d3cb42907bae1a2cc03e5ee200de5fe6/61b91/test_5.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 86.97916666666667%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAADFElEQVQ4y43T6XPaRhjHcb3uZBJz6ABhLmNqG4QkJAEyp4mNuQQGAsY28dXONJ00eZFp//5vR8JO0+aYvvjM7vPszm92d2aFx8QhD6kyt1mNx5+PuM8d8sdBlvdZld/3fbvcZ1TuMzl+y+5zKSosX8mswirLUIxVNMkqussqkmAVjiNobgGrU6XWa3GyGNCZDbBPy7inOp1+ieqZid51qPSPcc9dzNcOR+4hhYZGoV6k2NQ/83tCaGKQnrc42vRofLqg+WnB3l2H4p1L7rpGajMgtZmyd3tJejNDWbcJTwzCU3PLnwf1tidII4PstIl21aP2zgvk1idY6wHpWR3Rs1GnVWLTCrJXRhobPyRII5Pk1EVb9skvuhy+PaXzcUL7/QTzrk1u2aR02UddNFAuqshTG8krI/oBnvkVQRlbiCMd1XPIzJoUbs+ovRtxdHmCtqhgPgzRf5miPcxJXw+IzWvIE2sbODa/PqE8Lj9dxcQPVy9qaL+e4X6Ykr7pUr4fYz8OyV7VkaY24lhH9AxEz/ymINAPC4JHJsqkjHu/wLobk1hUUMYO8sgiMixtT/F8ve+94bmqch6PBfpqnP7uLkM5zrms0JMl+jE5MIgp9L9J/hdhqMQYSjJeIokXU/EUBU+RGSsKQ1GkH4kwiEQZRKMMP4tsiVEGohjsG4lSQIhcOIRmFtK8SmrzGvfPFY2/1qQfe8jrBslNG/W6SfyqjriqIy4bSKsm0qqFuHSJv3EILxx2ZhahuYVgl3I42h5WKYddyjLuOEy6VRpOga6rM++1GLYr9JsW7apF03FoV6q0q8e0bJ2+ladm7GMXM9haBsEs59GNPSrHRU67Di3/G+kZSkY2UNBSFEtptKCX3tJTW0aGopFFN/cwngj1fIpGIcfIcZi3jhnbRZr5JPX9RKCR36W+/wV/LZ96kqQR1P8Qli8i+N6GUzxKB6zFHDcpk5tEkU3a4iapc5PQgvo6ccDqRZjVTzvfJVyEJWZijFkoynwnyjwkMnvmr31Z+15FfkhYiHFmL8PM/cbL8P/yvNcf/+tvx3kbPk9HwDYAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/d3cb42907bae1a2cc03e5ee200de5fe6/a59e9/test_5.webp 192w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/0ca9f/test_5.webp 384w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/dc9b9/test_5.webp 768w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/64775/test_5.webp 984w&quot;
+              sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/d3cb42907bae1a2cc03e5ee200de5fe6/3b721/test_5.png 192w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/66595/test_5.png 384w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/fe486/test_5.png 768w,
+/static/d3cb42907bae1a2cc03e5ee200de5fe6/61b91/test_5.png 984w&quot;
+            sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/d3cb42907bae1a2cc03e5ee200de5fe6/fe486/test_5.png&quot;
+            alt=&quot;test_5&quot;
+            title=&quot;test_5&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;반복하며 다른 함수 실행시키기&lt;/h2&gt;
+&lt;p&gt;보통 이경우에 모두 커버하기 위해서는 테스트 코드를 쪼갭니다. 즉, if를 타는 테스트 메서드와 else를 타는 테스트로 말입니다. 하지만 이번에는 하나의 테스트 메서드에서 2번 각각 다르게 되도록 호출하였습니다. 코드는 아래와 같습니다. returnsMany를 이용하면 호출 순서에따라 다르게 반환하도록 가능합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; sampleService&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; SampleService &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;spyk&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    objToCopy &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;SampleService&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    recordPrivateCalls &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token annotation builtin&quot;&gt;@Test&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; user2 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;emptyList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; user &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;listOf&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user2&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    every &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; sampleService&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;getLoggedUser&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;returnsMany&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user2&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 처음 호출은 user2, 두번째는 null을 반환합니다.&lt;/span&gt;
+    sampleService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 처음 호출&lt;/span&gt;
+    sampleService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 두번째 호출&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 아래처럼 모든 코드가 커버되는 것을 확인할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 768px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/4b0d8865e3080fdcbfb828e7f0c32df5/668eb/test_6.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 82.8125%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAADKElEQVQ4y43SaW/iVhSHcb/qEhJWLyHsGC+YzTYYCHaYkK3ZIEBJKJMoM5pOO9JIM+2o319PhYlSRWqkefHT/xzL9+oc6QqlYpNKoUtZ87CqBqZZpVUzsKsqllamrpepqGVyuTpawSEhFYjFM8QT2RdiiQyxRBah0mqjDmekrj6zd/MJZfqFytE5bs/GDmzsA5dSv0N12McOupR7Hkq9Qa7VJtt0Kbo9cnaHgtMj23QQpCub4jTAXJ4w+DIn+HqL/nBI9bFP46GPthpSWF6gP8yo3E8orE6Qxjby2EUeO0/pokw2vSBd2+Qn+5h3Iw7+mjH6e4G6ekNtMaA877M7OyC3OKZ4d07h9oT0fMD6zGs2E974NJcX2I/ntD9e0/pwRvDHnNr9MZl5B30+ID3zSF3WEK+a4UH52kF+zv8IyrXL7riNOhtSmY5QVwccf5vT/f2c3r1PfXVM42GKurqk8NsZe7cB8sTdXBqu/JKgXLnIVw7rSbOTHurikNq7Yxrvzsj/6mN/uKD3eRpmfnmEMumEk7y6snLTJjTdpHzj0vk05s23W6yPZ6i3hxjLEeLURp46yDcO8tR9lSAFddZE30I+aCINGxhHQ9TRgKRfRfRrpHwrJH4HIb6dIRbZI7aTIRbLEflZ4acfUkR+lIhu7RLdSj/l9xEkz0LsmMj9BvnAQzvpU/1lQP6wS9Izibsaibb+LNkxSHbWqYWZCHuDlGeGBOXpUa6zsPDxv845+meJ+f4U9e0h7T/H1N+fYT4eob49pXB3SnF5Sml1Sf5uhLXokZl1kSYO8sRBSFZUkmqZpK4hGjrpqknaqrL+Luka2XqdtGWhmAayYZLSDETdRDJqiJpBWlPDf+PlEgm1hCB6VVKdKtnAoT07oTU+RPQM4m6FRFsj5qhhHfZuheR67ZAW5vPKHTMkpGo6qaaJvh+g9Xxku4FitzZaLXZtG6XVRF6zG6QaOslahWRNe8qXBNE1ET0LyatR6nnk9rtkg4CMv09hOHqqB2T9AXt+F7FrkWwbpF4hJJJFYtFs+Gy2IzI7EYWdLTm0vSU91xsK0cgu0e000cj/+xegOAQnADjmrwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/4b0d8865e3080fdcbfb828e7f0c32df5/a59e9/test_6.webp 192w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/0ca9f/test_6.webp 384w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/dc9b9/test_6.webp 768w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/e6a50/test_6.webp 1008w&quot;
+              sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/4b0d8865e3080fdcbfb828e7f0c32df5/3b721/test_6.png 192w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/66595/test_6.png 384w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/fe486/test_6.png 768w,
+/static/4b0d8865e3080fdcbfb828e7f0c32df5/668eb/test_6.png 1008w&quot;
+            sizes=&quot;(max-width: 768px) 100vw, 768px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/4b0d8865e3080fdcbfb828e7f0c32df5/fe486/test_6.png&quot;
+            alt=&quot;test_6&quot;
+            title=&quot;test_6&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;마무리&lt;/h2&gt;
+&lt;p&gt;이제 리팩토링을 하기 위한 기초 작업은 마무리 되었습니다. 남은 일은 이렇게 짜여진 테스트 코드를 기반으로 리팩토링을 진행하는 것입니다. 테스트 코드를 짜고 리팩토링을하면 리팩토링했을 때 잘못하는 케이스를 막을 수 있으므로 자신감있게 할 수 있게 됩니다.&lt;/p&gt;
+&lt;p&gt;다음시간에는 리팩토링을 진행해보도록 하겠습니다.&lt;/p&gt;
+&lt;p&gt;감사합니다.&lt;/p&gt;
+&lt;h2&gt;참조&lt;/h2&gt;
+&lt;p&gt;[1] &lt;a href=&quot;https://www.youtube.com/watch?v=LSqbXorkyfQ&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://www.youtube.com/watch?v=LSqbXorkyfQ&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a href=&quot;https://mockk.io&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://mockk.io&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[kotlin] 레거시(legacy) 코드에 테스트 작성하기 1편]]></title><description><![CDATA[…]]></description><link>https://sabarada.github.io/kotlin_legacy_code_refactoring_using_testcode_1/</link><guid isPermaLink="false">https://sabarada.github.io/kotlin_legacy_code_refactoring_using_testcode_1/</guid><dc:creator><![CDATA[Karol]]></dc:creator><pubDate>Sat, 16 Apr 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;안녕하세요. 서비스의 시간이 오래되면 &lt;strong&gt;레거시 코드&lt;/strong&gt;에 대해 고민이 생기기 마련입니다. 특히 이제는 퇴사한 사람이 남기고간 장황하고 이유를 알 수 없는 코드에 수정이 필요하게 되면 덜컥 겁이나기 시작합니다. 그런 코드들은 생성된 시간이 오래되면 오래될수록 공포감도 커지고 건들고 싶지 않아집니다. 하지만 그렇다고 수정을 안할수도 없습니다. 무작정 수정하게되면 실수 등에 의해서 잘 되던게 오히려 잘못 동작할수도 있습니다. 때문에 우리는 &lt;strong&gt;수정하기에 앞서 어느정도 안전장치를 만들어둘 필요가 있습니다. 그것이 바로 테스트 코드를 작성하는 것입니다.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;오늘은 레거시 코드에 테스트 코드를 작성하고 커버리지를 올리는 방법에 대해서 알아보는 시간을 가져보도록 하겠습니다.&lt;/p&gt;
+&lt;h2&gt;레거시 코드에 유닛 테스트 코드를 추가하면서 얻을 수 있는 이득&lt;/h2&gt;
+&lt;p&gt;레거시 코드에 유닛 테스트 코드를 추가해서 이용하면 어떤 이득이 있을까요? &lt;strong&gt;가장 눈에 띄게 얻을 수 있는 효과는 크게 코드 분석적인 이유, 그리고 실수를 방지해준다는 이유&lt;/strong&gt;가 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;첫번째, 테스트 코드를 작성하는 과정에서 레거시 코드에 대한 이해도가 상승&lt;/strong&gt;하게 됩니다. 어떤 코드든 수정을 위해서는 기존 코드에 대한 분석이 필요합니다. 이러한 분석을 하는 방법은 코드를 눈으로 보고 이해하는 것도 있습니다만 이럴경우 놓칠 수 있는 부분이 있습니다. 그런데 만약 &lt;strong&gt;테스트 코드를 작성하고 있는 중 이라면 디버깅 모드를 이용한다면 한줄씩 넘어가며 어떤 식으로 로직이 실행되는지 실제로 경험&lt;/strong&gt;할 수 있습니다. 이는 분명히 눈으로 훑어 보는 것보다 코드를 이해하는데 도움이 됩니다. 그렇기 때문에 분석적인 부분에 있어서 큰 효과를 얻을 수 있다고 생각합니다.&lt;/p&gt;
+&lt;p&gt;두번째, 테스트 코드는 리팩토링 중 일어날 수 있는 실수를 바로잡아줄 수 있습니다. &lt;code class=&quot;language-text&quot;&gt;레거시 코드 활용 전략&lt;/code&gt;에 의하면 리팩토링 중 개발자가 가장 많이 하는 실수는 아래와 같습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;추출한 메서드에 변수를 전달하는 것을 잊기 쉽다.&lt;/strong&gt; 대부분의 경우 컴파일러가 변수의 누락된 사실을 알려주지만, 지역 변수여야 한다고 생각한 나머지 신규 메서드 내에 선언해버리는 실수를 저지를 수 있다.&lt;/li&gt;
+&lt;li&gt;추출된 메서드에 붙인 이름이 &lt;strong&gt;상속을 사용하고 있어서 기초(Base) 클래스 내에 있는 동일한 이름의 메서드를 은폐하거나 재정의할 가능성&lt;/strong&gt;이 있다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;매개변수를 전달하거나 반환 값을 대입할 때 실수를 저지르기 쉽다.&lt;/strong&gt; 잘못된 값을 반환하는 것과 같은 정말 어리석은 일을 저지르기도 한다. 좀 더 포착하기 힘든 경우로, 신규 메서드에서 잘못된 타입을 반환하거나 전달받을 가능성도 있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;쉽게 저지를 수 있는 실수 예시&lt;/h3&gt;
+&lt;p&gt;코드로도 쉽게 일어날 수 있는 실수를 한번 보도록 하겠습니다. 아래와 같은 코틀린 코드가 있습니다. 이 코드를 다른 레거시 클래스에서 주입받아서 사용한다고 했을 때 match라는 메서드를 사용함에 있어서 실수가 발생할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; TripRepository &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;tripId&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Long&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; userId&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Long&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;// ..[로직]..&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;아래 코드를 보도록 하겠습니다. 아래 코드는 잘못된 것입니다. 왜냐구요 ? 잘 보시면 userId와 tripId의 순서가 바뀐것을 확인하실 수 있습니다. 이런 실수들은 컴파일 타임에 잡아줄 수 없습니다. namedParameter를 사용하더라도 그것은 가이드 일 뿐 컴파일 타임에 잡아주지 않습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;tripRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; tripId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// tripRepository.match(tripId, userId) 여야 정상&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;하지만 만약 테스트 코드가 있었다면 이런 실수는 컴파일 타임에 unitTest를 돌리면서 잡아낼 수 있습니다.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;레거시 샘플 코드&lt;/h2&gt;
+&lt;p&gt;그렇다면 이제 레거시 코드에 한번 테스트를 작성해보도록 하겠습니다. 먼저 아래 코드는 &lt;a href=&quot;https://www.youtube.com/watch?v=LSqbXorkyfQ&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;Testing and Refactoring Legacy Code&lt;/a&gt;에 있던 Java 샘플 코드를 Kotlin으로 포팅한 것임을 알려드립니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token annotation builtin&quot;&gt;@Throws&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;UserNotLoggedInException&lt;span class=&quot;token operator&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getTripByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; User&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; List&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Trip&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; tripList&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; List&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Trip&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; loggedUser&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; User &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; UserSession&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getLoggedUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; isFriend &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;loggedUser &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;friend &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; user&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getFriends&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;friend &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; loggedUser&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                isFriend &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;break&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;isFriend&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            tripList &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; tripRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findTripsByUser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        tripList
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;UserNotLoggedInException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;intellij에서 코드 커버리지 보는 방법&lt;/h2&gt;
+&lt;p&gt;테스트 코드가 정상적으로 레거시 코드를 커버하는지 판단은 coverage를 통해서 진행합니다. intellij를 사용하고 있으시면 intellij의 기본으로 제공하는 기능을 사용하시면 될것 같으며 그렇지 않다면 jacoco 등을 이용하는 것을 추천드립니다. 아래 이미지는 intellij에서 기본으로 제공하는 코드 커버리지를 보는 방법을 이용하는 방법입니다. 테스트 코드를 실행하는 UI를 클릭하시면 &lt;code class=&quot;language-text&quot;&gt;Run with Coverage&lt;/code&gt;가 있습니다.&lt;/p&gt;
+&lt;p&gt;1&lt;a href=&quot;images/test_1.png&quot;&gt;test_1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;이를 클릭하시면 테스트 코드가 어느정도 커버하고 있는지를 보여주며 커버되고 있지 않는 부분은 빨간색으로, 커버되고 있는 부분은 초록색으로 표시됩니다. 테스트를 작성하며 어느정도 커버하고 있는지를 바로바로 확인할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;1&lt;a href=&quot;images/test_2.png&quot;&gt;test_2&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;마무리&lt;/h2&gt;
+&lt;p&gt;오늘은 이렇게 레기서 코드를 수정하기 전 작업으로 테스트 코드를 작성해야하는 이유와 작성하기 위한 방법, 그리고 어느정도의 테크닉에 대해서 알아보았습니다.&lt;/p&gt;
+&lt;p&gt;그래서 너는 어느정도 테스트 코드를 만들고 리팩토링을 하느냐고 물어보시면 리팩토링 하는 부분에 있어서는 최대한 라인 커버리지로 100%는 채우려고 합니다. 무조건 버그가 안생긴다는 것은 아니지만 확실히 내가 실수할 수 있는 부분에 있어서 방지의 효과는 경험도 해보았고 효과적이기 때문입니다.&lt;/p&gt;
+&lt;p&gt;다음 시간에는 실제로 테스트코드를 작성하고 위 코드의 테스트 커버리지를 100%로 맞춰보는 작업을 진행해보도록 하겠습니다.&lt;/p&gt;
+&lt;p&gt;감사합니다.&lt;/p&gt;
+&lt;h2&gt;참조&lt;/h2&gt;
+&lt;p&gt;[1] &lt;a href=&quot;https://www.youtube.com/watch?v=LSqbXorkyfQ&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;https://www.youtube.com/watch?v=LSqbXorkyfQ&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a href=&quot;http://www.yes24.com/Product/Goods/64586851&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;레거시 코드 활용 전략&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[java] ThreadLocal에 관하여]]></title><description><![CDATA[안녕하세요. 오늘은 ThreadLocal에 대해서 알아보도록 하겠습니다. 변수를 공유하는 방법 객체는 Heap 또는 Stack 메모리 영역에 배치시킬 수 있습니다. Heap 영역은 일반적으로 모든 thread에서 접근 할 수 있으며 stack…]]></description><link>https://sabarada.github.io/[java]_about_ThreadLocal/</link><guid isPermaLink="false">https://sabarada.github.io/[java]_about_ThreadLocal/</guid><dc:creator><![CDATA[Karol]]></dc:creator><pubDate>Sat, 15 May 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;안녕하세요. 오늘은 ThreadLocal에 대해서 알아보도록 하겠습니다.&lt;/p&gt;
 &lt;h2&gt;변수를 공유하는 방법&lt;/h2&gt;
 &lt;p&gt;객체는 Heap 또는 Stack 메모리 영역에 배치시킬 수 있습니다. Heap 영역은 일반적으로 모든 thread에서 접근 할 수 있으며 stack은 thread 하나당 만들어 지는 메모리 영역으로 thread간 접근이 불가능한 것으로 알려져 있습니다.&lt;/p&gt;
 &lt;p&gt;아래 코드의 UserRepository 변수는 &lt;strong&gt;Heap 영역에 만들어진 객체를 가리키고 있으며 다른 곳에서도 해당 객체를 바로 접근&lt;/strong&gt;할 수 있습니다. 함께 공유해서 사용하기 때문에 여러 thread에서 사용할 때 공유된 정보로써 제공할 수 있습니다. 따라서 만약 UserRepository가 설정 정보를 가지고 있고 이를 변경한다면 사용하고 있는 모든 곳에서 영향을 받게 됩니다.&lt;/p&gt;
